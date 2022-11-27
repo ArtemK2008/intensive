@@ -1,3 +1,4 @@
+
 package com.kalachev.intensive.dao.entities;
 
 import java.util.Objects;
@@ -8,16 +9,19 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity(name = "position")
 public class Position {
+
+  @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "position_id")
   private int positionId;
   @Column(name = "title")
   private String title;
-  @OneToMany(mappedBy = "position", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "position", fetch = FetchType.EAGER)
   private Set<Employee> employees;
 
   public Position() {

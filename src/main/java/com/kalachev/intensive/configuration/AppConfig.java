@@ -48,7 +48,7 @@ public class AppConfig {
   public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {
     LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
     sessionFactory.setDataSource(dataSource);
-    sessionFactory.setPackagesToScan("com.kalachev.task7");
+    sessionFactory.setPackagesToScan("com.kalachev.intensive");
     sessionFactory.setHibernateProperties(hibernateProperties());
     return sessionFactory;
   }
