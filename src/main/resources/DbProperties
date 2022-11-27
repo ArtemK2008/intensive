@@ -1,0 +1,6 @@
+URL = jdbc:postgresql://localhost/kalachevintensive
+NAME = postgres
+PASSWORD = 1234
+JDBC_DRIVER = org.postgresql.Driver
+DIALECT = org.hibernate.dialect.PostgreSQLDialect
+DLL-MODE = update
