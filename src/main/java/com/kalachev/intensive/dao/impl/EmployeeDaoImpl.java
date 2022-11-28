@@ -1,8 +1,10 @@
 package com.kalachev.intensive.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.persistence.Query;
 
@@ -14,8 +16,10 @@ import org.springframework.stereotype.Component;
 
 import com.kalachev.intensive.dao.EmployeeDao;
 import com.kalachev.intensive.dao.PositionDao;
+import com.kalachev.intensive.dao.ProjectDao;
 import com.kalachev.intensive.dao.entities.Employee;
 import com.kalachev.intensive.dao.entities.Position;
+import com.kalachev.intensive.dao.entities.Project;
 import com.kalachev.intensive.utills.HibernateUtills;
 
 @Component
@@ -24,6 +28,26 @@ public class EmployeeDaoImpl implements EmployeeDao {
   SessionFactory sessionFactory;
   @Autowired
   PositionDao positionDaoImpl;
+  @Autowired
+  ProjectDao projectDaoImpl;
+
+  @Override
+  public List<Employee> findAll() {
+    Transaction transaction = null;
+    List<Employee> employees = new ArrayList<>();
+    try (Session session = sessionFactory.openSession()) {
+      transaction = session.beginTransaction();
+      Query query = session.createQuery("SELECT e FROM employee e",
+          Employee.class);
+      employees = query.getResultList();
+      transaction.commit();
+    } catch (Exception e) {
+      if (transaction != null) {
+        transaction.rollback();
+      }
+    }
+    return employees;
+  }
 
   @Override
   public Employee findByName(String name) {
@@ -93,8 +117,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
     boolean isDeleted = false;
     try (Session session = sessionFactory.openSession()) {
       transaction = session.beginTransaction();
+
       Employee employee = session.get(Employee.class, id);
       Position curPosition = employee.getPosition();
+      Set<Project> thisEmployeeProjects = employee.getProjects();
+      for (Project p : thisEmployeeProjects) {
+        p.getEmployees().remove(employee);
+      }
       curPosition.getEmployees().remove(employee);
       session.delete(employee);
       isDeleted = true;
@@ -105,7 +134,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
         transaction.rollback();
       }
     }
-
     return isDeleted;
   }
 
@@ -135,8 +163,57 @@ public class EmployeeDaoImpl implements EmployeeDao {
         transaction.rollback();
       }
     }
-
     return isChanged;
+  }
+
+  @Override
+  public boolean addToProject(String fullName, String title) {
+    Transaction transaction = null;
+    boolean isAdded = false;
+
+    try (Session session = sessionFactory.openSession()) {
+      transaction = session.beginTransaction();
+      Employee employee = findByName(fullName);
+      Set<Project> projects = employee.getProjects();
+      Project curProject = projectDaoImpl.findByTitle(title);
+      projects.add(curProject);
+      curProject.getEmployees().add(employee);
+      session.saveOrUpdate(curProject);
+      session.saveOrUpdate(employee);
+      isAdded = true;
+      transaction.commit();
+    } catch (Exception e) {
+      e.printStackTrace();
+      if (transaction != null) {
+        transaction.rollback();
+      }
+    }
+    return isAdded;
+  }
+
+  @Override
+  public boolean deleteFromProject(String fullName, String title) {
+    Transaction transaction = null;
+    boolean isRemoved = false;
+
+    try (Session session = sessionFactory.openSession()) {
+      transaction = session.beginTransaction();
+      Employee employee = findByName(fullName);
+      Set<Project> projects = employee.getProjects();
+      Project curProject = projectDaoImpl.findByTitle(title);
+      projects.remove(curProject);
+      curProject.getEmployees().remove(employee);
+      session.saveOrUpdate(curProject);
+      session.saveOrUpdate(employee);
+      isRemoved = true;
+      transaction.commit();
+    } catch (Exception e) {
+      e.printStackTrace();
+      if (transaction != null) {
+        transaction.rollback();
+      }
+    }
+    return isRemoved;
   }
 
   @Override

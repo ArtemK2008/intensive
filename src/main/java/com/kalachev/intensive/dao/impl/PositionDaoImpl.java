@@ -123,4 +123,9 @@ public class PositionDaoImpl implements PositionDao {
     return isDeleted;
   }
 
+  public Set<Employee> getEmployees(String title) {
+    Position position = findByTitle(title);
+    return position.getEmployees();
+  }
+
 }

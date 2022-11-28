@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>positions</title>
+<title>Customers</title>
 <link rel="stylesheet" type="text/css" th:href="@{/resources/style.css}"></link>
 </head>
 <body>
@@ -15,12 +15,11 @@
 
 	<div th:if="${empty == null}">
 
-		<h1>Those positions exist</h1>
+		<h1>Those Customers Exist</h1>
 		<div>
 			<ul>
-				<th:block th:object="${positions}">
-					<li th:each="position : ${positions}" th:text="${position}">group
-						description here...</li>
+				<th:block th:object="${customers}">
+					<li th:each="customer : ${customers}" th:text="${customer}">customer list here...</li>
 				</th:block>
 			</ul>
 		</div>

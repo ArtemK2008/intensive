@@ -1,15 +1,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>School management</title>
+<title>employees</title>
 <link rel="stylesheet" type="text/css" th:href="@{/resources/style.css}"></link>
 </head>
 <body>
-	<h1>ERROR</h1>
+	<h1>
+		Those are current employees 	</h1>
+	<div>
+		<ul>
+			<th:block th:object="${employees}">
+				<li th:each="employee : ${employees}" th:text="${employee}">employee
+					name here...</li>
+			</th:block>
+		</ul>
+	</div>
 
-	<h4>
-		request failed because <span th:text="${result}">error message</span>
-	</h4>
+
 	<p>
 		<button type="button">
 			<a th:href="@{/}">Go Home</a>

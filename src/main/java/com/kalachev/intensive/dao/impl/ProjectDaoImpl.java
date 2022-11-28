@@ -1,5 +1,6 @@
 package com.kalachev.intensive.dao.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -14,11 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.kalachev.intensive.dao.EmployeeDao;
+import com.kalachev.intensive.dao.ProjectDao;
 import com.kalachev.intensive.dao.entities.Employee;
 import com.kalachev.intensive.dao.entities.Project;
 
 @Component
-public class ProjectDaoImpl {
+public class ProjectDaoImpl implements ProjectDao {
 
   Random random;
   @Autowired
@@ -33,6 +35,25 @@ public class ProjectDaoImpl {
     random = new Random();
   }
 
+  @Override
+  public List<Project> findAll() {
+    Transaction transaction = null;
+    List<Project> projects = new ArrayList<>();
+    try (Session session = sessionFactory.openSession()) {
+      transaction = session.beginTransaction();
+      Query query = session.createQuery("SELECT p FROM project p",
+          Project.class);
+      projects = query.getResultList();
+      transaction.commit();
+    } catch (Exception e) {
+      if (transaction != null) {
+        transaction.rollback();
+      }
+    }
+    return projects;
+  }
+
+  @Override
   public Project findByTitle(String projectTitle) {
     Transaction transaction = null;
     Project project = new Project();
@@ -51,6 +72,66 @@ public class ProjectDaoImpl {
     return project;
   }
 
+  @Override
+  public Set<Employee> findEmployees(String projectTitle) {
+    Project project = findByTitle(projectTitle);
+    return project.getEmployees();
+  }
+
+  @Override
+  public Set<Project> findProjectsOfChosenEmployee(String fullname) {
+    Employee employee = employeeDaoImpl.findByName(fullname);
+    return employee.getProjects();
+  }
+
+  @Override
+  public boolean insert(String title) {
+    boolean isAdded = false;
+    Transaction transaction = null;
+    Project project = new Project();
+    try (Session session = sessionFactory.openSession()) {
+      transaction = session.beginTransaction();
+      project.setTitle(title);
+      session.save(project);
+      transaction.commit();
+      isAdded = true;
+    } catch (Exception e) {
+      e.printStackTrace();
+      if (transaction != null) {
+        transaction.rollback();
+      }
+    }
+    return isAdded;
+  }
+
+  @Override
+  public boolean delete(String title) {
+    boolean isDeleted = false;
+    Transaction transaction = null;
+    try (Session session = sessionFactory.openSession()) {
+      transaction = session.beginTransaction();
+      Query query = session.createQuery("from project where title=:title");
+      query.setParameter("title", title);
+      Project project = (Project) query.getSingleResult();
+      Set<Employee> employees = project.getEmployees();
+      for (Employee e : employees) {
+        e.getProjects().remove(project);
+        session.saveOrUpdate(e);
+      }
+      project.getCustomer().setProject(null);
+      session.delete(project);
+      transaction.commit();
+      isDeleted = true;
+    } catch (Exception e) {
+      e.printStackTrace();
+      if (transaction != null) {
+        transaction.rollback();
+      }
+    }
+    return isDeleted;
+  }
+
+  @Override
   public void assignEmployeesToProjects(List<String> projects,
       List<String> employees) {
     for (String name : employees) {
@@ -58,6 +139,7 @@ public class ProjectDaoImpl {
     }
   }
 
+  @Override
   public void assineSingleEmployee(String name, List<String> projects) {
 
     Employee curEmployee = employeeDaoImpl.findByName(name);

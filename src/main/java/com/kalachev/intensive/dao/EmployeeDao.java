@@ -22,4 +22,9 @@ public interface EmployeeDao {
   void assignEmployeesToPositions(
       Map<String, List<String>> employeesWithPositions);
 
+  public List<Employee> findAll();
+
+  public boolean addToProject(String fullName, String title);
+
+  public boolean deleteFromProject(String fullName, String title);
 }

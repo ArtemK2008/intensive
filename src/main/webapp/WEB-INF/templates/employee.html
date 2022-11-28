@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Position</title>
+<link rel="stylesheet" type="text/css" th:href="@{/resources/style.css}"></link>
+</head>
+<body>
+	<h1>Employee Options</h1>
+	<p>
+		<button type="button">
+			<a th:href="@{/display-employee-list}">Display All Employees</a>
+		</button>
+	</p>
+	
+	<p>
+		<button type="button">
+			<a th:href="@{/add-employee}">Add New Employee</a>
+		</button>
+	</p>
+	
+		<p>
+		<button type="button">
+			<a th:href="@{/delete-employee}">Delete Employee</a>
+		</button>
+	</p>
+	
+		<p>
+		<button type="button">
+			<a th:href="@{/change-employee-position}">Change Employee Position</a>
+		</button>
+	</p>
+	
+		<p>
+		<button type="button">
+			<a th:href="@{/add-to-project}">Add Employee To Project</a>
+		</button>
+	</p>
+	
+		<p>
+		<button type="button">
+			<a th:href="@{/delete-from-project}">Delete Employee From Project</a>
+		</button>
+	</p>
+	
+	
+	<p>
+		<button type="button">
+			<a th:href="@{/}">Go Home</a>
+		</button>
+	</p>
+	
+</body>
+</html>

@@ -1,7 +1,9 @@
 package com.kalachev.intensive.dao;
 
 import java.util.List;
+import java.util.Set;
 
+import com.kalachev.intensive.dao.entities.Employee;
 import com.kalachev.intensive.dao.entities.Position;
 
 public interface PositionDao {
@@ -15,5 +17,7 @@ public interface PositionDao {
   public boolean insert(String title);
 
   public boolean delete(String title);
+
+  public Set<Employee> getEmployees(String title);
 
 }

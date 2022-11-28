@@ -24,9 +24,9 @@ public class DatabaseCleanerImpl implements DatabaseCleaner {
       session.createNativeQuery("DELETE FROM projects_employees")
           .executeUpdate();
       session.createNativeQuery("DELETE FROM customer").executeUpdate();
+      session.createNativeQuery("DELETE FROM employee").executeUpdate();
       session.createNativeQuery("DELETE FROM position").executeUpdate();
       session.createNativeQuery("DELETE FROM project").executeUpdate();
-      session.createNativeQuery("DELETE FROM employee").executeUpdate();
       session
           .createNativeQuery("ALTER SEQUENCE hibernate_sequence RESTART WITH 1")
           .executeUpdate();

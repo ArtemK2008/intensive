@@ -6,10 +6,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.kalachev.intensive.dao.CustomerDao;
 import com.kalachev.intensive.dao.EmployeeDao;
 import com.kalachev.intensive.dao.PositionDao;
-import com.kalachev.intensive.dao.impl.CustomerDaoImpl;
-import com.kalachev.intensive.dao.impl.ProjectDaoImpl;
+import com.kalachev.intensive.dao.ProjectDao;
 import com.kalachev.intensive.initialization.CustomerDataPopulator;
 import com.kalachev.intensive.initialization.CustomerInitializer;
 import com.kalachev.intensive.initialization.DatabaseCleaner;
@@ -45,14 +45,14 @@ public class InitializerHibernate {
   @Autowired
   ProjectDataPopulator projectDataPopulatorImpl;
   @Autowired
-  ProjectDaoImpl projectDaoImpl;
+  ProjectDao projectDaoImpl;
 
   @Autowired
   CustomerInitializer customerInitializerImpl;
   @Autowired
   CustomerDataPopulator customerDataPopulatorImpl;
   @Autowired
-  CustomerDaoImpl customerDaoImpl;
+  CustomerDao customerDaoImpl;
 
   @Autowired
   DatabaseCleaner databaseCleanerImpl;
@@ -62,8 +62,8 @@ public class InitializerHibernate {
   }
 
   public void initializeTables() {
+
     databaseCleanerImpl.clearAllTables();
-    System.out.println("cleaned");
     generateTableData();
     populateTables();
     assignPositionsToEmployees(employees, positions);

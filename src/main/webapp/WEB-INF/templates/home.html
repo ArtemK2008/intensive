@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Management</title>
+<link rel="stylesheet" type="text/css" th:href="@{/resources/style.css}"></link>
+</head>
+<body>
+	<h1>Main Page</h1>
+	<p>
+		<button type="button">
+			<a th:href="@{/position}">Position Options</a>
+		</button>
+	</p>
+	
+	<p>
+		<button type="button">
+			<a th:href="@{/employee}">Employee Options</a>
+		</button>
+	</p>
+	
+		<p>
+		<button type="project">
+			<a th:href="@{/project}">Project Options</a>
+		</button>
+	</p>
+	
+		<p>
+		<button type="button">
+			<a th:href="@{/customer}">Customer Options</a>
+		</button>
+	</p>
+	
+	
+	
+		<p>
+		<button type="button">
+			<a th:href="@{/refresh-all-data}">Refresh DB</a>
+		</button>
+	</p>
+</body>
+</html>

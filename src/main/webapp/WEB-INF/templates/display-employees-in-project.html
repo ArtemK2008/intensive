@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Choose Project</title>
+<link rel="stylesheet" type="text/css" th:href="@{/resources/style.css}"></link>
+</head>
+<body>
+
+	<div th:if="${empty != null}">
+		<h1>
+			<span th:text="${empty}"></span>
+		</h1>
+	</div>
+
+	<div th:if="${empty == null}">
+		<h1>Type Project Name To Display Employees</h1>
+
+		<form action="#" method="POST"
+			th:action="@{/display-employees-in-project}" th:object="${projects}">
+			<select name="pickedProject" th:object="${projects}">
+				<option th:each="project : ${projects}" th:value="${project}"
+					th:name="${project}" th:text="${project}"></option>
+			</select> <input type="submit" value="pick project" />
+		</form>
+	</div>
+	<p>
+		<button type="button">
+			<a th:href="@{/}">Go Home</a>
+		</button>
+	</p>
+</body>
+</html>
