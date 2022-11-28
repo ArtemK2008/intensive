@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.kalachev.intensive.dao.entities.Employee;
+import com.kalachev.intensive.initialization.EmployeeDataPopulator;
+import com.kalachev.intensive.utills.HibernateUtills;
 
 @Component
 public class EmployeeDataPopulatorImpl implements EmployeeDataPopulator {
@@ -23,8 +25,8 @@ public class EmployeeDataPopulatorImpl implements EmployeeDataPopulator {
       for (String fullname : employees) {
         if (validateName(fullname)) {
           Employee employee = new Employee();
-          employee.setFirstName(fullname.split(" ")[0]);
-          employee.setLastName(fullname.split(" ")[1]);
+          employee.setFirstName(HibernateUtills.splitBySpace(fullname)[0]);
+          employee.setLastName(HibernateUtills.splitBySpace(fullname)[1]);
           session.save(employee);
           session.flush();
         }
@@ -40,8 +42,6 @@ public class EmployeeDataPopulatorImpl implements EmployeeDataPopulator {
   }
 
   private boolean validateName(String name) {
-    System.out.println(
-        name + " is name and " + name.split(" ").length + " is length");
     return name.split(" ").length == 2;
   }
 

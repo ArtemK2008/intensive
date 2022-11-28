@@ -8,16 +8,20 @@ import org.springframework.stereotype.Component;
 
 import com.kalachev.intensive.dao.EmployeeDao;
 import com.kalachev.intensive.dao.PositionDao;
+import com.kalachev.intensive.dao.impl.ProjectDaoImpl;
 import com.kalachev.intensive.initialization.DatabaseCleaner;
+import com.kalachev.intensive.initialization.EmployeeDataPopulator;
 import com.kalachev.intensive.initialization.EmployeeInitializer;
 import com.kalachev.intensive.initialization.PositionDataPopulator;
 import com.kalachev.intensive.initialization.PositionInitializer;
-import com.kalachev.intensive.initialization.tables.EmployeeDataPopulator;
+import com.kalachev.intensive.initialization.ProjectDataPopulator;
+import com.kalachev.intensive.initialization.ProjectInitializer;
 
 @Component
 public class InitializerHibernate {
   List<String> employees;
   List<String> positions;
+  List<String> projects;
   @Autowired
   EmployeeInitializer employeeInitializerImpl;
   @Autowired
@@ -31,38 +35,49 @@ public class InitializerHibernate {
   @Autowired
   PositionDao positionDaoImpl;
   @Autowired
+  ProjectDaoImpl projectDaoImpl;
+  @Autowired
+  ProjectInitializer projectInitializerImpl;
+  @Autowired
+  ProjectDataPopulator projectDataPopulatorImpl;
+  @Autowired
   DatabaseCleaner databaseCleanerImpl;
 
-  public InitializerHibernate(EmployeeInitializer employeeInitializerImpl,
-      PositionInitializer positionInitializerImpl) {
+  public InitializerHibernate() {
     super();
-    this.employeeInitializerImpl = employeeInitializerImpl;
-    this.positionInitializerImpl = positionInitializerImpl;
   }
 
   public void initializeTables() {
     databaseCleanerImpl.clearAllTables();
     generateTableData();
-    employees.forEach(System.out::println);
+    populateTables();
+    // assignPositionsToEmployees(employees, positions);
+    assignProjectsToEmployees(projects, employees);
 
-    employeeDataPopulatorImpl.populateEmployees(employees);
-    positionDataPopulatorImpl.populatePositions(positions);
-    assignPositionsToEmployees();
-    positionDaoImpl.insert("this is new pos");
-    positionDaoImpl.delete("test");
-    positionDaoImpl.findAll().stream()
-        .forEach(p -> System.out.println(p.getTitle()));
   }
 
   private void generateTableData() {
     employees = employeeInitializerImpl.generateEmployeeNames();
     positions = positionInitializerImpl.generatePositions();
+    projects = projectInitializerImpl.generateProjects();
   }
 
-  private void assignPositionsToEmployees() {
+  private void populateTables() {
+    employeeDataPopulatorImpl.populateEmployees(employees);
+    positionDataPopulatorImpl.populatePositions(positions);
+    projectDataPopulatorImpl.populateProjects(projects);
+  }
+
+  private void assignPositionsToEmployees(List<String> employees,
+      List<String> positions) {
     Map<String, List<String>> employeesWithPositions = employeeInitializerImpl
         .assignEmployeesToPossitions(employees, positions);
     employeeDaoImpl.assignEmployeesToPositions(employeesWithPositions);
+  }
+
+  private void assignProjectsToEmployees(List<String> projects,
+      List<String> employees) {
+    projectDaoImpl.assignEmployeesToProjects(projects, employees);
   }
 
 }

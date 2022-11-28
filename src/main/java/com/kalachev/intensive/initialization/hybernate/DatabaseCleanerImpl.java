@@ -21,10 +21,19 @@ public class DatabaseCleanerImpl implements DatabaseCleaner {
       transaction = session.beginTransaction();
       session.createNativeQuery("DELETE FROM position_employee")
           .executeUpdate();
+      session.createNativeQuery("DELETE FROM projects_employees")
+          .executeUpdate();
       session.createNativeQuery("DELETE FROM employee").executeUpdate();
       session.createNativeQuery("DELETE FROM position").executeUpdate();
+      session.createNativeQuery("DELETE FROM project").executeUpdate();
       session
           .createNativeQuery("ALTER SEQUENCE hibernate_sequence RESTART WITH 1")
+          .executeUpdate();
+      session
+          .createNativeQuery("ALTER SEQUENCE position_sequence RESTART WITH 1")
+          .executeUpdate();
+      session
+          .createNativeQuery("ALTER SEQUENCE project_sequence RESTART WITH 1")
           .executeUpdate();
       session
           .createNativeQuery("ALTER SEQUENCE employee_sequence RESTART WITH 1")

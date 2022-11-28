@@ -12,6 +12,7 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.kalachev.intensive.dao.EmployeeDao;
 import com.kalachev.intensive.dao.PositionDao;
 import com.kalachev.intensive.dao.entities.Employee;
 import com.kalachev.intensive.dao.entities.Position;
@@ -20,6 +21,8 @@ import com.kalachev.intensive.dao.entities.Position;
 public class PositionDaoImpl implements PositionDao {
   @Autowired
   SessionFactory sessionFactory;
+  @Autowired
+  EmployeeDao employeeDaoImpl;
 
   @Override
   public Position findById(int positionId) {
@@ -59,7 +62,7 @@ public class PositionDaoImpl implements PositionDao {
   @Override
   public List<Position> findAll() {
     Transaction transaction = null;
-    List<Position> positions = new ArrayList();
+    List<Position> positions = new ArrayList<>();
     try (Session session = sessionFactory.openSession()) {
       transaction = session.beginTransaction();
       Query query = session.createQuery("SELECT p FROM position p",
@@ -118,10 +121,6 @@ public class PositionDaoImpl implements PositionDao {
       }
     }
     return isDeleted;
-  }
-
-  public void addEmployee(Employee employee) {
-    // todo
   }
 
 }

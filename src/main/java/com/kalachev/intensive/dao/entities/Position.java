@@ -11,12 +11,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 @Entity(name = "position")
 public class Position {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @SequenceGenerator(name = "position_seq", sequenceName = "position_sequence", initialValue = 1, allocationSize = 25)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "position_seq")
   @Column(name = "position_id")
   private int positionId;
   @Column(name = "title")

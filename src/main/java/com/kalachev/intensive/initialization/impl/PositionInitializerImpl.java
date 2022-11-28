@@ -12,8 +12,6 @@ public class PositionInitializerImpl implements PositionInitializer {
 
   @Override
   public List<String> generatePositions() {
-    List<String> positions = Arrays.asList("test", "backend", "frontend",
-        "devOps", "hr");
-    return positions;
+    return Arrays.asList("test", "backend", "frontend", "devOps", "hr");
   }
 }

@@ -1,4 +1,4 @@
-package com.kalachev.intensive.initialization.tables;
+package com.kalachev.intensive.initialization;
 
 import java.util.List;
 
