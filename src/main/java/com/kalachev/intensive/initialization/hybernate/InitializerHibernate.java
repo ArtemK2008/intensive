@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 
 import com.kalachev.intensive.dao.EmployeeDao;
 import com.kalachev.intensive.dao.PositionDao;
+import com.kalachev.intensive.dao.impl.CustomerDaoImpl;
 import com.kalachev.intensive.dao.impl.ProjectDaoImpl;
+import com.kalachev.intensive.initialization.CustomerDataPopulator;
+import com.kalachev.intensive.initialization.CustomerInitializer;
 import com.kalachev.intensive.initialization.DatabaseCleaner;
 import com.kalachev.intensive.initialization.EmployeeDataPopulator;
 import com.kalachev.intensive.initialization.EmployeeInitializer;
@@ -22,24 +25,35 @@ public class InitializerHibernate {
   List<String> employees;
   List<String> positions;
   List<String> projects;
+  List<String> custumers;
   @Autowired
   EmployeeInitializer employeeInitializerImpl;
   @Autowired
   EmployeeDataPopulator employeeDataPopulatorImpl;
   @Autowired
+  EmployeeDao employeeDaoImpl;
+
+  @Autowired
   PositionInitializer positionInitializerImpl;
   @Autowired
   PositionDataPopulator positionDataPopulatorImpl;
   @Autowired
-  EmployeeDao employeeDaoImpl;
-  @Autowired
   PositionDao positionDaoImpl;
-  @Autowired
-  ProjectDaoImpl projectDaoImpl;
+
   @Autowired
   ProjectInitializer projectInitializerImpl;
   @Autowired
   ProjectDataPopulator projectDataPopulatorImpl;
+  @Autowired
+  ProjectDaoImpl projectDaoImpl;
+
+  @Autowired
+  CustomerInitializer customerInitializerImpl;
+  @Autowired
+  CustomerDataPopulator customerDataPopulatorImpl;
+  @Autowired
+  CustomerDaoImpl customerDaoImpl;
+
   @Autowired
   DatabaseCleaner databaseCleanerImpl;
 
@@ -49,10 +63,12 @@ public class InitializerHibernate {
 
   public void initializeTables() {
     databaseCleanerImpl.clearAllTables();
+    System.out.println("cleaned");
     generateTableData();
     populateTables();
-    // assignPositionsToEmployees(employees, positions);
+    assignPositionsToEmployees(employees, positions);
     assignProjectsToEmployees(projects, employees);
+    assignCustomersToProjects(custumers, projects);
 
   }
 
@@ -60,12 +76,14 @@ public class InitializerHibernate {
     employees = employeeInitializerImpl.generateEmployeeNames();
     positions = positionInitializerImpl.generatePositions();
     projects = projectInitializerImpl.generateProjects();
+    custumers = customerInitializerImpl.generateCustomers();
   }
 
   private void populateTables() {
     employeeDataPopulatorImpl.populateEmployees(employees);
     positionDataPopulatorImpl.populatePositions(positions);
     projectDataPopulatorImpl.populateProjects(projects);
+    customerDataPopulatorImpl.populateCustomers(custumers);
   }
 
   private void assignPositionsToEmployees(List<String> employees,
@@ -78,6 +96,11 @@ public class InitializerHibernate {
   private void assignProjectsToEmployees(List<String> projects,
       List<String> employees) {
     projectDaoImpl.assignEmployeesToProjects(projects, employees);
+  }
+
+  private void assignCustomersToProjects(List<String> customers,
+      List<String> projects) {
+    customerDaoImpl.assignCustomersToProjects(customers, projects);
   }
 
 }

@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 @Entity(name = "project")
@@ -27,6 +28,8 @@ public class Project {
       @JoinColumn(name = "project_id") }, inverseJoinColumns = {
           @JoinColumn(name = "employee_id") })
   private Set<Employee> employees;
+  @OneToOne(mappedBy = "project")
+  private Customer customer;
 
   public Project() {
     super();
@@ -54,6 +57,14 @@ public class Project {
 
   public void setEmployees(Set<Employee> employees) {
     this.employees = employees;
+  }
+
+  public Customer getCustomer() {
+    return customer;
+  }
+
+  public void setCustomer(Customer customer) {
+    this.customer = customer;
   }
 
 }

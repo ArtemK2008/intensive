@@ -53,7 +53,6 @@ public class ProjectDaoImpl {
 
   public void assignEmployeesToProjects(List<String> projects,
       List<String> employees) {
-
     for (String name : employees) {
       assineSingleEmployee(name, projects);
     }
@@ -71,10 +70,7 @@ public class ProjectDaoImpl {
         addRandomProject(projects, empProjects);
       }
       session.saveOrUpdate(curEmployee);
-      System.out.println("cur  name is " + curEmployee.getFirstName() + " "
-          + curEmployee.getLastName());
       for (Project p : empProjects) {
-        System.out.println("his project is " + p.getTitle());
         p.getEmployees().add(curEmployee);
         session.saveOrUpdate(p);
       }
@@ -88,7 +84,6 @@ public class ProjectDaoImpl {
 
   private Project findRandomProject(List<String> projects) {
     int curRandom = random.nextInt(projects.size());
-    System.out.println("random is" + curRandom);
     return findByTitle(projects.get(curRandom));
   }
 
@@ -96,19 +91,15 @@ public class ProjectDaoImpl {
       Set<Project> empsProjects) {
     Project tempProj = findRandomProject(projectNames);
     String title = tempProj.getTitle();
-    System.out.println("title is " + title);
     Set<String> titles = new HashSet<>();
 
     for (Project p : empsProjects) {
-      System.out.println("title of cur project " + p.getTitle());
       titles.add(p.getTitle());
     }
 
     while (titles.contains(title)) {
-      System.out.println("error on " + title);
       tempProj = findRandomProject(projectNames);
       title = tempProj.getTitle();
-      System.out.println("new title is " + title);
     }
 
     empsProjects.add(tempProj);
