@@ -1,4 +1,4 @@
-package com.kalachev.intensive.MVC.Controllers;
+package com.kalachev.intensive.MVC.controllers;
 
 import java.util.List;
 

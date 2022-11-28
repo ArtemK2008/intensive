@@ -1,4 +1,4 @@
-package com.kalachev.intensive.MVC.Controllers;
+package com.kalachev.intensive.MVC.controllers;
 
 import java.util.List;
 
@@ -27,12 +27,14 @@ public class EmployeeController {
   static final String SUCCESS_PAGE = "success-page";
   static final String RESULT = "result";
   static final String UNEXPECTED_ERROR = "Unexpected Error";
+  static final String NO_EMPLOYEES = "no employees found";
+  static final String EMPTY = "empty";
 
   @GetMapping(value = "/display-employee-list")
   public String findPositions(Model model) {
     List<String> employees = employeeOptions.displayEmployees();
     if (employees.isEmpty()) {
-      model.addAttribute("empty", "no employees found");
+      model.addAttribute(EMPTY, NO_EMPLOYEES);
     }
     model.addAttribute("employees", employees);
     return "display-all-employees";
@@ -42,7 +44,7 @@ public class EmployeeController {
   public String addEmployee(Model model) {
     List<String> positions = positionOptions.findAllPositions();
     if (positions.isEmpty()) {
-      model.addAttribute("empty", "no positions found");
+      model.addAttribute(EMPTY, "no positions found");
     }
     model.addAttribute("positions", positions);
     return "add-new-employee";
@@ -74,7 +76,6 @@ public class EmployeeController {
   public String handleDeletePosition(@RequestParam("employeeId") String id,
       Model model) {
     int test = Integer.parseInt(id);
-    System.out.println(test);
     if (!employeeOptions.deleteEmployeeById(test)) {
       String result = UNEXPECTED_ERROR;
       model.addAttribute(RESULT, result);
@@ -123,10 +124,10 @@ public class EmployeeController {
     List<String> employees = employeeOptions.displayEmployees();
     List<String> projects = projectOptions.findAllProjects();
     if (employees.isEmpty()) {
-      model.addAttribute("empty", "no employees found");
+      model.addAttribute(EMPTY, NO_EMPLOYEES);
     }
     if (projects.isEmpty()) {
-      model.addAttribute("empty", "no projects found");
+      model.addAttribute(EMPTY, "no projects found");
     }
     model.addAttribute("projects", projects);
     model.addAttribute("employees", employees);
@@ -155,7 +156,7 @@ public class EmployeeController {
   public String deleteFromProject(Model model) {
     List<String> employees = employeeOptions.displayEmployees();
     if (employees.isEmpty()) {
-      model.addAttribute("empty", "no employees found");
+      model.addAttribute(EMPTY, NO_EMPLOYEES);
     }
     model.addAttribute("employees", employees);
     return "choose-employee-to-delete";
