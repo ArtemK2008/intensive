@@ -71,4 +71,5 @@ public class AppConfig {
         .setSessionFactory(sessionFactory(dataSource()).getObject());
     return transactionManager;
   }
+
 }

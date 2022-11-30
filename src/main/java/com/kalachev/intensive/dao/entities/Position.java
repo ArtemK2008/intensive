@@ -17,7 +17,7 @@ import javax.persistence.SequenceGenerator;
 public class Position {
 
   @Id
-  @SequenceGenerator(name = "position_seq", sequenceName = "position_sequence", initialValue = 1, allocationSize = 25)
+  @SequenceGenerator(name = "position_seq", sequenceName = "position_sequence", initialValue = 1, allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "position_seq")
   @Column(name = "position_id")
   private int positionId;

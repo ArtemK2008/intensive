@@ -17,7 +17,7 @@ import javax.persistence.SequenceGenerator;
 @Entity(name = "employee")
 public class Employee {
   @Id
-  @SequenceGenerator(name = "employee_seq", sequenceName = "employee_sequence", initialValue = 1, allocationSize = 25)
+  @SequenceGenerator(name = "employee_seq", sequenceName = "employee_sequence", initialValue = 1, allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_seq")
   @Column(name = "employee_id", nullable = false)
   private int id;

@@ -15,13 +15,14 @@ import com.kalachev.intensive.initialization.CustomerInitializer;
 import com.kalachev.intensive.initialization.DatabaseCleaner;
 import com.kalachev.intensive.initialization.EmployeeDataPopulator;
 import com.kalachev.intensive.initialization.EmployeeInitializer;
+import com.kalachev.intensive.initialization.Initializer;
 import com.kalachev.intensive.initialization.PositionDataPopulator;
 import com.kalachev.intensive.initialization.PositionInitializer;
 import com.kalachev.intensive.initialization.ProjectDataPopulator;
 import com.kalachev.intensive.initialization.ProjectInitializer;
 
 @Component
-public class InitializerHibernate {
+public class InitializerHibernate implements Initializer {
   List<String> employees;
   List<String> positions;
   List<String> projects;
@@ -61,9 +62,16 @@ public class InitializerHibernate {
     super();
   }
 
-  public void initializeTables() {
-
+  @Override
+  public void cleanTables() {
     databaseCleanerImpl.clearAllTables();
+    for (int i = 0; i < 10; i++) {
+      System.out.println("cleaned");
+    }
+  }
+
+  @Override
+  public void initializeTables() {
     generateTableData();
     populateTables();
     assignPositionsToEmployees(employees, positions);

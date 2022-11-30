@@ -69,6 +69,27 @@ public class CustomerDaoImpl implements CustomerDao {
   }
 
   @Override
+  public boolean delete(String companyName) {
+    boolean isDeleted = false;
+    Transaction transaction = null;
+    try (Session session = sessionFactory.openSession()) {
+      transaction = session.beginTransaction();
+      Customer customer = findByName(companyName);
+      Project project = customer.getProject();
+      project.setCustomer(null);
+      session.delete(customer);
+      transaction.commit();
+      isDeleted = true;
+    } catch (Exception e) {
+      e.printStackTrace();
+      if (transaction != null) {
+        transaction.rollback();
+      }
+    }
+    return isDeleted;
+  }
+
+  @Override
   public void assignCustomersToProjects(List<String> customers,
       List<String> projects) {
     Collections.shuffle(projects);

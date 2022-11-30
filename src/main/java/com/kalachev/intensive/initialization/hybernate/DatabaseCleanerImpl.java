@@ -19,14 +19,6 @@ public class DatabaseCleanerImpl implements DatabaseCleaner {
     Transaction transaction = null;
     try (Session session = sessionFactory.openSession()) {
       transaction = session.beginTransaction();
-      session.createNativeQuery("DELETE FROM position_employee")
-          .executeUpdate();
-      session.createNativeQuery("DELETE FROM projects_employees")
-          .executeUpdate();
-      session.createNativeQuery("DELETE FROM customer").executeUpdate();
-      session.createNativeQuery("DELETE FROM employee").executeUpdate();
-      session.createNativeQuery("DELETE FROM position").executeUpdate();
-      session.createNativeQuery("DELETE FROM project").executeUpdate();
       session
           .createNativeQuery("ALTER SEQUENCE hibernate_sequence RESTART WITH 1")
           .executeUpdate();
@@ -42,6 +34,16 @@ public class DatabaseCleanerImpl implements DatabaseCleaner {
       session
           .createNativeQuery("ALTER SEQUENCE employee_sequence RESTART WITH 1")
           .executeUpdate();
+
+      session.createNativeQuery("DELETE FROM position_employee")
+          .executeUpdate();
+      session.createNativeQuery("DELETE FROM projects_employees")
+          .executeUpdate();
+      session.createNativeQuery("DELETE FROM customer").executeUpdate();
+      session.createNativeQuery("DELETE FROM employee").executeUpdate();
+      session.createNativeQuery("DELETE FROM position").executeUpdate();
+      session.createNativeQuery("DELETE FROM project").executeUpdate();
+
       transaction.commit();
     } catch (Exception e) {
       if (transaction != null) {

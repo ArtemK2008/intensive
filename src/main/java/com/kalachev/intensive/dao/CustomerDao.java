@@ -12,4 +12,6 @@ public interface CustomerDao {
 
   void assignCustomersToProjects(List<String> customers, List<String> projects);
 
+  public boolean delete(String companyName);
+
 }

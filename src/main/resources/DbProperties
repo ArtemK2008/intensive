@@ -3,4 +3,4 @@ NAME = artem
 PASSWORD = 2487
 JDBC_DRIVER = org.postgresql.Driver
 DIALECT = org.hibernate.dialect.PostgreSQLDialect
-DLL-MODE = update
+DLL-MODE = create

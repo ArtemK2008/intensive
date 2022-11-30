@@ -20,4 +20,8 @@ public class CustomerOptions {
         .collect(Collectors.toList());
   }
 
+  public boolean deleteCustomer(String companyName) {
+    return customerDaoImpl.delete(companyName);
+  }
+
 }

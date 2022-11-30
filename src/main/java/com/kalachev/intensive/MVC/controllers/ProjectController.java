@@ -12,6 +12,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kalachev.intensive.service.ProjectOptions;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 @Controller
 public class ProjectController {
 
@@ -21,32 +24,38 @@ public class ProjectController {
   static final String ERROR_PAGE = "error-page";
   static final String SUCCESS_PAGE = "success-page";
   static final String RESULT = "result";
+  static final String EMPTY = "empty";
   static final String UNEXPECTED_ERROR = "Unexpected Error";
+  static final String NO_PROJECTS = "no projects found";
+  static final String PROJECTS = "projects";
 
   @GetMapping(value = "/find-all-projects")
+  @ApiOperation(value = "display Project list", notes = "This Method Displays all existing Projects")
   public String findPositions(Model model) {
     List<String> projects = projectOptions.findAllProjects();
     if (projects.isEmpty()) {
-      model.addAttribute("empty", "no projects found");
+      model.addAttribute(EMPTY, NO_PROJECTS);
     }
-    model.addAttribute("projects", projects);
+    model.addAttribute(PROJECTS, projects);
     return "find-all-projects";
   }
 
   @GetMapping("/display-employees-in-project")
+  @ApiOperation(value = "display Project's Employees", notes = "This Method asks to pick Project Title from dropdown")
   public String showEmployees(Model model) {
     List<String> projects = projectOptions.findAllProjects();
     if (projects.isEmpty()) {
-      model.addAttribute("empty", "no projects found");
+      model.addAttribute(EMPTY, NO_PROJECTS);
     }
-    model.addAttribute("projects", projects);
+    model.addAttribute(PROJECTS, projects);
     return "display-employees-in-project";
   }
 
   @PostMapping(value = "/display-employees-in-project")
+  @ApiOperation(value = "display Project's Employees", notes = "This Method tries to find Employees of choosen Project")
   public String handleDisplayEmployees(
-      @RequestParam("pickedProject") String title, Model model,
-      RedirectAttributes redirectAttributes) {
+      @ApiParam(name = "pickedProject", type = "String", value = "title of Project to create", example = "big", required = true) @RequestParam("pickedProject") String title,
+      Model model, RedirectAttributes redirectAttributes) {
 
     List<String> employees = projectOptions.findEmployeesInProject(title);
     if (employees.isEmpty()) {
@@ -59,17 +68,21 @@ public class ProjectController {
   }
 
   @GetMapping(value = "/proceed-displayEmployees-in-project")
+  @ApiOperation(value = "finish displaying Projects'Employees", notes = "This Method Displays all Employees For Choosen Project")
   public String displayEmployees() {
     return "find-by-project-employee-list";
   }
 
   @GetMapping(value = "/create-new-project")
+  @ApiOperation(value = "create Project", notes = "This Method asks to type a Title for new Project")
   public String insertProject() {
     return "create-new-project";
   }
 
   @PostMapping("/create-new-project")
-  public String handleAddPositon(@RequestParam("projectTitle") String title,
+  @ApiOperation(value = "create Project", notes = "This Method tries to create Project with choosen title")
+  public String handleAddProject(
+      @ApiParam(name = "projectTitle", type = "String", value = "title of Project to create", example = "colossal", required = true) @RequestParam("projectTitle") String title,
       Model model) {
 
     if (!projectOptions.addNewProject(title)) {
@@ -81,25 +94,27 @@ public class ProjectController {
   }
 
   @GetMapping("/proceed-create-project")
+  @ApiOperation(value = "finish creating Project", notes = "This Method shows success page if Project was created")
   public String finishInserting() {
     return SUCCESS_PAGE;
   }
 
-//
   @GetMapping(value = "/delete-project")
-  public String deletePosition(Model model) {
+  @ApiOperation(value = "delete Project", notes = "This Method asks to choose Project Title to delete from Dropdown")
+  public String deleteProject(Model model) {
     List<String> projects = projectOptions.findAllProjects();
     if (projects.isEmpty()) {
-      model.addAttribute("empty", "no projects found");
+      model.addAttribute(EMPTY, NO_PROJECTS);
     }
-    model.addAttribute("projects", projects);
+    model.addAttribute(PROJECTS, projects);
     return "delete-project";
   }
 
   @PostMapping(value = "/delete-project")
-  public String handleDeletePosition(
-      @RequestParam("pickedProject") String title, Model model,
-      RedirectAttributes redirectAttributes) {
+  @ApiOperation(value = "delete Project", notes = "This Method tries to delete Project with choosen title")
+  public String handleDeleteProject(
+      @ApiParam(name = "pickedProject", type = "String", value = "title of Project to delete", example = "huge", required = true) @RequestParam("pickedProject") String title,
+      Model model, RedirectAttributes redirectAttributes) {
 
     if (!projectOptions.deleteProject(title)) {
       String result = UNEXPECTED_ERROR;
@@ -110,6 +125,7 @@ public class ProjectController {
   }
 
   @GetMapping("/proceed-delete-project")
+  @ApiOperation(value = "finish deletin Project", notes = "This Method shows success page if Project was deleted")
   public String finishDeliting() {
     return SUCCESS_PAGE;
   }
