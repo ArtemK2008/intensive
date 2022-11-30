@@ -35,7 +35,7 @@ public class EmployeeController {
   static final String EMPLOYEES = "employees";
 
   @GetMapping(value = "/display-employee-list")
-  @ApiOperation(value = "display employee list", notes = "This Method Displays all existing Employees")
+  @ApiOperation(value = "display employee list", notes = "This Method Displays all existing Employees", produces = "text/html")
   public String findPositions(Model model) {
     List<String> employees = employeeOptions.displayEmployees();
     if (employees.isEmpty()) {
@@ -46,7 +46,7 @@ public class EmployeeController {
   }
 
   @GetMapping(value = "/add-employee")
-  @ApiOperation(value = "Add Employee", notes = "This method asks to insert full name of a new Employee and assign it to Position from dropdown")
+  @ApiOperation(value = "Add Employee", notes = "This method asks to insert full name of a new Employee and assign it to Position from dropdown", produces = "text/html")
   public String addEmployee(Model model) {
     List<String> positions = positionOptions.findAllPositions();
     if (positions.isEmpty()) {
@@ -57,7 +57,7 @@ public class EmployeeController {
   }
 
   @PostMapping("/add-employee")
-  @ApiOperation(value = "Add Employee", notes = "This method inserts assigned Employee")
+  @ApiOperation(value = "Add Employee", notes = "This method inserts assigned Employee", produces = "text/html", consumes = "text/plain")
   public String handleAddPositon(
       @ApiParam(name = "fullName", type = "String", value = "name of a new Employee", example = "Artem Kalachev", required = true) @RequestParam("fullName") String fullName,
       @ApiParam(name = "pickedPosition", type = "String", value = "Name of a Choosen Position", example = "backend", required = true) @RequestParam("pickedPosition") String positionTitle,
@@ -72,19 +72,19 @@ public class EmployeeController {
   }
 
   @GetMapping("/proceed-add-employee")
-  @ApiOperation(value = "Finish Inserting Employee", notes = "This method Shows Success Page if Employee was inserted")
+  @ApiOperation(value = "Finish Inserting Employee", notes = "This method Shows Success Page if Employee was inserted", produces = "text/html")
   public String finishInserting() {
     return SUCCESS_PAGE;
   }
 
-  @GetMapping(value = "/delete-employee")
+  @GetMapping(value = "/delete-employee", produces = "text/html")
   @ApiOperation(value = "Delete Employee by Id", notes = "This method asks to insert id of an Employee you want to delete")
   public String deleteEmployee() {
     return "delete-employee";
   }
 
-  @PostMapping(value = "/delete-employee")
-  @ApiOperation(value = "delete Employee", notes = "This method This method deletes assigned Employee")
+  @PostMapping(value = "/delete-employee", produces = "text/html")
+  @ApiOperation(value = "delete Employee", notes = "This method This method deletes assigned Employee", consumes = "text/plain")
   public String handleDeletePosition(
       @ApiParam(name = "employeeId", type = "String", value = "id of an Employee", example = "4", required = true) @RequestParam("employeeId") String id,
       Model model) {
@@ -98,12 +98,12 @@ public class EmployeeController {
   }
 
   @GetMapping("/proceed-delete-employee")
-  @ApiOperation(value = "Finish Deleting Employee", notes = "This method Shows Success Page if Employee was deleted")
+  @ApiOperation(value = "Finish Deleting Employee", notes = "This method Shows Success Page if Employee was deleted", produces = "text/html")
   public String finishDeleting() {
     return SUCCESS_PAGE;
   }
 
-  @GetMapping(value = "/change-employee-position")
+  @GetMapping(value = "/change-employee-position", produces = "text/html")
   @ApiOperation(value = "Change Employee Position", notes = "This method asks to insert id of an Employee and pick possible position from dropdown")
   public String changePosition(Model model) {
     List<String> positions = positionOptions.findAllPositions();
@@ -115,7 +115,7 @@ public class EmployeeController {
   }
 
   @PostMapping("/change-employee-position")
-  @ApiOperation(value = "Change Employee Position", notes = "This method assign Employee to picked position")
+  @ApiOperation(value = "Change Employee Position", notes = "This method assign Employee to picked position", produces = "text/html", consumes = "text/plain")
   public String handleChangingPosition(
       @ApiParam(name = "employeeId", type = "String", value = "id of an Employee", example = "4", required = true) @RequestParam("employeeId") String employeeId,
       @ApiParam(name = "pickedPosition", type = "String", value = "new position for an Employee", example = "backend", required = true) @RequestParam("pickedPosition") String positionTitle,
@@ -132,13 +132,13 @@ public class EmployeeController {
   }
 
   @GetMapping("/proceed-change-position")
-  @ApiOperation(value = "Finish Changing Employee Position", notes = "This method Shows Success Page if Employee's possition was changed")
+  @ApiOperation(value = "Finish Changing Employee Position", notes = "This method Shows Success Page if Employee's possition was changed", produces = "text/html")
   public String finishChangingPosition() {
     return SUCCESS_PAGE;
   }
 
   @GetMapping(value = "/add-to-project")
-  @ApiOperation(value = "Add to Project", notes = "This method asks to pick Employee's name and Project name from dropdowns")
+  @ApiOperation(value = "Add to Project", notes = "This method asks to pick Employee's name and Project name from dropdowns", produces = "text/html")
   public String addToProject(Model model) {
     List<String> employees = employeeOptions.displayEmployees();
     List<String> projects = projectOptions.findAllProjects();
@@ -154,7 +154,7 @@ public class EmployeeController {
   }
 
   @PostMapping("/add-to-project")
-  @ApiOperation(value = "Add to Project", notes = "This method assign choosen Employee to picked Project")
+  @ApiOperation(value = "Add to Project", notes = "This method assign choosen Employee to picked Project", produces = "text/html", consumes = "text/plain")
   public String handleAssigningToProject(
       @ApiParam(name = "pickedEmployee", type = "String", value = "Employee's full name", example = "Artem Kalachev", required = true) @RequestParam("pickedEmployee") String fullName,
       @ApiParam(name = "pickedProject", type = "String", value = "Title of a Project", example = "enterprise", required = true) @RequestParam("pickedProject") String projectTitle,
@@ -169,13 +169,13 @@ public class EmployeeController {
   }
 
   @GetMapping("/proceed-add-to-project")
-  @ApiOperation(value = "finish assigning to project", notes = "This method shows Success if Employee Project was changed")
+  @ApiOperation(value = "finish assigning to project", notes = "This method shows Success if Employee Project was changed", produces = "text/html")
   public String finishAssigningToProject() {
     return SUCCESS_PAGE;
   }
 
   @GetMapping(value = "/delete-from-project")
-  @ApiOperation(value = "delete from Project", notes = "This method asks to pick Employee's name from dropdowns")
+  @ApiOperation(value = "delete from Project", notes = "This method asks to pick Employee's name from dropdowns", produces = "text/html")
   public String deleteFromProject(Model model) {
     List<String> employees = employeeOptions.displayEmployees();
     if (employees.isEmpty()) {
@@ -186,7 +186,7 @@ public class EmployeeController {
   }
 
   @PostMapping(value = "/delete-from-project")
-  @ApiOperation(value = "delete from Project", notes = "This method asks to pick choosen Employee's Project from dropdowns")
+  @ApiOperation(value = "delete from Project", notes = "This method asks to pick choosen Employee's Project from dropdowns", produces = "text/html", consumes = "text/plain")
   public String handleDeleteFromProject(
       @ApiParam(name = "pickedEmployee", type = "String", value = "Employee's full name", example = "Artem Kalachev", required = true) @RequestParam("pickedEmployee") String fullName,
       Model model,
@@ -194,7 +194,6 @@ public class EmployeeController {
 
     List<String> projects = projectOptions
         .findProjectsOfChosenEmployee(fullName);
-
     if (projects.isEmpty()) {
       model.addAttribute(RESULT, "no projects for this employee");
       return ERROR_PAGE;
@@ -206,13 +205,13 @@ public class EmployeeController {
   }
 
   @GetMapping(value = "/proceed-delete-from-project")
-  @ApiOperation(value = "proceed deleting from Project", notes = "This method handles redirect for deleling Employee from Project")
+  @ApiOperation(value = "proceed deleting from Project", notes = "This method handles redirect for deleling Employee from Project", consumes = "text/plain", produces = "text/html")
   public String proceedDeletingFromProject() {
     return "finish-deleting-from-project";
   }
 
   @PostMapping(value = "/proceed-delete-from-project")
-  @ApiOperation(value = "finish deleting Employee from Project", notes = "This method tries to delete choosen Employee from choosen Project")
+  @ApiOperation(value = "finish deleting Employee from Project", notes = "This method tries to delete choosen Employee from choosen Project", produces = "text/html", consumes = "text/plain")
   public String finishDeletingFromProject(Model model,
       @ApiParam(name = "pickedProject", type = "String", value = "Project's Title", example = "big", required = true) @RequestParam("pickedProject") String title,
       @ApiParam(name = "fullName", type = "String", value = "Employee's full name", example = "Artem Kalachev", required = true) @RequestParam("fullName") String fullName) {
@@ -225,7 +224,7 @@ public class EmployeeController {
   }
 
   @GetMapping("employee-deleted-from-project")
-  @ApiOperation(value = "Employee is removed from Project", notes = "This method shows Success if Employee was removed from Project")
+  @ApiOperation(value = "Employee is removed from Project", notes = "This method shows Success if Employee was removed from Project", produces = "text/html")
   public String employeeDeleted() {
     return SUCCESS_PAGE;
   }

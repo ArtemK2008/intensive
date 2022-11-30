@@ -27,7 +27,7 @@ public class CustomerController {
   static final String UNEXPECTED_ERROR = "Unexpected Error";
 
   @GetMapping(value = "/find-all-customers")
-  @ApiOperation(value = "find all customers", notes = "This method displays all existing customers")
+  @ApiOperation(value = "find all customers", notes = "This method displays all existing customers", produces = "text/html")
   public String findCustomers(Model model) {
     List<String> customers = customerOptions.findAllCustomers();
     if (customers.isEmpty()) {
@@ -38,8 +38,8 @@ public class CustomerController {
   }
 
   @GetMapping(value = "/delete-customer")
-  @ApiOperation(value = "delete customer", notes = "This method asks to pick existing customer from dropdown")
-  public String deletePosition(Model model) {
+  @ApiOperation(value = "delete customer", notes = "This method asks to pick existing customer from dropdown", produces = "text/html")
+  public String deleteCustomer(Model model) {
     List<String> customers = customerOptions.findAllCustomers();
     if (customers.isEmpty()) {
       model.addAttribute(EMPTY, "no projects found");
@@ -49,7 +49,7 @@ public class CustomerController {
   }
 
   @PostMapping(value = "/delete-customer")
-  @ApiOperation(value = "delete customer", notes = "This method deletes picked customer", produces = "String")
+  @ApiOperation(value = "delete customer", notes = "This method deletes picked customer", produces = "String", consumes = "text/plain")
   public String handleDeleteCustomer(
       @ApiParam(name = "pickedCustomer", type = "String", value = "Name of Customers Company", example = "VK", required = true) @RequestParam("pickedCustomer") String companyName,
       Model model, RedirectAttributes redirectAttributes) {
@@ -63,7 +63,7 @@ public class CustomerController {
   }
 
   @GetMapping("/proceed-delete-customer")
-  @ApiOperation(value = "Finish Deliting Customer", notes = "If Customer Was Successfully Deleted Shows Success Page ")
+  @ApiOperation(value = "Finish Deliting Customer", notes = "If Customer Was Successfully Deleted Shows Success Page ", produces = "text/html")
   public String finishDeliting() {
     return SUCCESS_PAGE;
   }

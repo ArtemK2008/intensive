@@ -20,37 +20,37 @@ public class UtillController {
   static final String SUCCESS_PAGE = "success-page";
 
   @GetMapping("/")
-  @ApiOperation(value = "home page", notes = "Display home page")
+  @ApiOperation(value = "home page", notes = "Display home page", produces = "text/html")
   public String home() {
     return "home";
   }
 
   @GetMapping("/position")
-  @ApiOperation(value = "position page", notes = "Display position page")
+  @ApiOperation(value = "position page", notes = "Display position page", produces = "text/html")
   public String position() {
     return "position";
   }
 
   @GetMapping("/employee")
-  @ApiOperation(value = "employee page", notes = "Display employee page")
+  @ApiOperation(value = "employee page", notes = "Display employee page", produces = "text/html")
   public String employee() {
     return "employee";
   }
 
   @GetMapping("/project")
-  @ApiOperation(value = "project page", notes = "Display project page")
+  @ApiOperation(value = "project page", notes = "Display project page", produces = "text/html")
   public String project() {
     return "project";
   }
 
   @GetMapping("/customer")
-  @ApiOperation(value = "customer page", notes = "Display customer page")
+  @ApiOperation(value = "customer page", notes = "Display customer page", produces = "text/html")
   public String customer() {
     return "customer";
   }
 
   @GetMapping("/refresh-all-data")
-  @ApiOperation(value = "refresh data", notes = "recreate tables")
+  @ApiOperation(value = "refresh data", notes = "recreate tables", produces = "text/html")
   public String refreshData() {
     ApplicationContext context = new AnnotationConfigApplicationContext(
         AppConfig.class);
