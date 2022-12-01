@@ -14,6 +14,8 @@ import com.kalachev.intensive.service.PositionOptions;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @Controller
 public class PositionController {
@@ -27,9 +29,12 @@ public class PositionController {
   static final String EMPTY = "empty";
   static final String NO_POSITION = "no positions found";
   static final String POSITIONS = "positions";
+  static final String MIME_HTML = "text/html";
 
   @GetMapping(value = "/find-all-positions")
-  @ApiOperation(value = "display Positions list", notes = "This Method Displays all existing Positions", produces = "text/html")
+  @ApiOperation(value = "display Positions list", notes = "This Method Displays all existing Positions", produces = MIME_HTML)
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Existing positions displayed") })
   public String findPositions(Model model) {
     List<String> positions = positionOptions.findAllPositions();
     if (positions.isEmpty()) {
@@ -40,13 +45,17 @@ public class PositionController {
   }
 
   @GetMapping(value = "/create-new-position")
-  @ApiOperation(value = "create Position", notes = "This method asks to type Title for new Position", produces = "text/html")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Shows form to type Title") })
+  @ApiOperation(value = "create Position", notes = "This method asks to type Title for new Position", produces = MIME_HTML)
   public String insertPosition() {
     return "create-new-position";
   }
 
   @PostMapping("/create-new-position")
-  @ApiOperation(value = "create Position", notes = "This method tries to create Position with inputed Title", produces = "text/html", consumes = "text/plain")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Trying to create new Position") })
+  @ApiOperation(value = "create Position", notes = "This method tries to create Position with inputed Title", produces = MIME_HTML)
   public String handleAddPositon(
       @ApiParam(name = "positionTitle", type = "String", value = "title of a new Position", example = "mentor", required = true) @RequestParam("positionTitle") String title,
       Model model) {
@@ -60,13 +69,17 @@ public class PositionController {
   }
 
   @GetMapping("/proceed-create-position")
-  @ApiOperation(value = "finish Position creating", notes = "This method show Success page if Position was created", produces = "text/html")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "New Position created") })
+  @ApiOperation(value = "finish Position creating", notes = "This method show Success page if Position was created", produces = MIME_HTML)
   public String finishInserting() {
     return SUCCESS_PAGE;
   }
 
   @GetMapping(value = "/delete-position")
-  @ApiOperation(value = "delete Position", notes = "This method asks to pick Position from Dropdown", produces = "text/html")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Displays dropdown with existing Positions") })
+  @ApiOperation(value = "delete Position", notes = "This method asks to pick Position from Dropdown", produces = MIME_HTML)
   public String deletePosition(Model model) {
     List<String> positions = positionOptions.findAllPositions();
     if (positions.isEmpty()) {
@@ -77,7 +90,9 @@ public class PositionController {
   }
 
   @PostMapping(value = "/delete-position")
-  @ApiOperation(value = "delete Position", notes = "This method tries to delete picked Position", produces = "text/html", consumes = "text/plain")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Trying to delete position") })
+  @ApiOperation(value = "delete Position", notes = "This method tries to delete picked Position", produces = MIME_HTML)
   public String handleDeletePosition(
       @ApiParam(name = "pickedPosition", type = "String", value = "title of Position to delete", example = "hr", required = true) @RequestParam("pickedPosition") String title,
       Model model, RedirectAttributes redirectAttributes) {
@@ -90,13 +105,17 @@ public class PositionController {
   }
 
   @GetMapping("/proceed-delete-position")
-  @ApiOperation(value = "finish deleting Position", notes = "This method show Success page if Position was deleted", produces = "text/html")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Position deleted") })
+  @ApiOperation(value = "finish deleting Position", notes = "This method show Success page if Position was deleted", produces = MIME_HTML)
   public String finishDeliting() {
     return SUCCESS_PAGE;
   }
 
   @GetMapping("/display-employees")
-  @ApiOperation(value = "display Employees of Position", notes = "This Method asks to pick existing Position from dropdown", produces = "text/html")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Displays all possible Positions") })
+  @ApiOperation(value = "display Employees of Position", notes = "This Method asks to pick existing Position from dropdown", produces = MIME_HTML)
   public String showEmployees(Model model) {
     List<String> positions = positionOptions.findAllPositions();
     if (positions.isEmpty()) {
@@ -107,7 +126,9 @@ public class PositionController {
   }
 
   @PostMapping(value = "/display-employees")
-  @ApiOperation(value = "display Employees of Position", notes = "This Method tries to retrieve all Employees of choosen position", produces = "text/html", consumes = "text/plain")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Tries to find all Employees for this Position") })
+  @ApiOperation(value = "display Employees of Position", notes = "This Method tries to retrieve all Employees of choosen position", produces = MIME_HTML)
   public String handleDisplayingEmployees(
       @ApiParam(name = "pickedPosition", type = "String", value = "title of Position to display its Employees", example = "hr", required = true) @RequestParam("pickedPosition") String title,
       Model model, RedirectAttributes redirectAttributes) {
@@ -123,7 +144,9 @@ public class PositionController {
   }
 
   @GetMapping(value = "/proceed-displayEmployees")
-  @ApiOperation(value = "display Employes of choosen Position", notes = "This Method Displays all Employees on choosen Position", produces = "text/html", consumes = "text/plain")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Displays all employees for picked Possition") })
+  @ApiOperation(value = "display Employes of choosen Position", notes = "This Method Displays all Employees on choosen Position", produces = MIME_HTML)
   public String displayEmployees() {
     return "find-by-position-employee-list";
   }

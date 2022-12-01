@@ -11,6 +11,8 @@ import com.kalachev.intensive.configuration.AppConfig;
 import com.kalachev.intensive.initialization.Initializer;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @Controller
 public class UtillController {
@@ -18,39 +20,52 @@ public class UtillController {
   Initializer initializerHibernate;
 
   static final String SUCCESS_PAGE = "success-page";
+  static final String MIME_HTML = "text/html";
 
   @GetMapping("/")
-  @ApiOperation(value = "home page", notes = "Display home page", produces = "text/html")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Home page loaded") })
+  @ApiOperation(value = "home page", notes = "Display home page", produces = MIME_HTML)
   public String home() {
     return "home";
   }
 
   @GetMapping("/position")
-  @ApiOperation(value = "position page", notes = "Display position page", produces = "text/html")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Position page loaded") })
+  @ApiOperation(value = "position page", notes = "Display position page", produces = MIME_HTML)
   public String position() {
     return "position";
   }
 
   @GetMapping("/employee")
-  @ApiOperation(value = "employee page", notes = "Display employee page", produces = "text/html")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Employee page loaded") })
+  @ApiOperation(value = "employee page", notes = "Display employee page", produces = MIME_HTML)
   public String employee() {
     return "employee";
   }
 
   @GetMapping("/project")
-  @ApiOperation(value = "project page", notes = "Display project page", produces = "text/html")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Project page loaded") })
+  @ApiOperation(value = "project page", notes = "Display project page", produces = MIME_HTML)
   public String project() {
     return "project";
   }
 
   @GetMapping("/customer")
-  @ApiOperation(value = "customer page", notes = "Display customer page", produces = "text/html")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Customer page loaded") })
+  @ApiOperation(value = "customer page", notes = "Display customer page", produces = MIME_HTML)
   public String customer() {
     return "customer";
   }
 
   @GetMapping("/refresh-all-data")
-  @ApiOperation(value = "refresh data", notes = "recreate tables", produces = "text/html")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Tables cleaned and recreated") })
+  @ApiOperation(value = "refresh data", notes = "cleanes and recreates tables", produces = MIME_HTML)
   public String refreshData() {
     ApplicationContext context = new AnnotationConfigApplicationContext(
         AppConfig.class);
