@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Create New Project</title>
+<link rel="stylesheet" type="text/css" th:href="@{/resources/style.css}"></link>
+</head>
+<body>
+	<h1>Type New Project Name</h1>
+
+	<form method="POST" th:action="@{/create-new-project}">
+		<table>
+			<tr>
+				<td>Title</td>
+				<td><input type="text" th:name="projectTitle"
+					value="Enter Name For New Project" /></td>
+			</tr>
+			<tr>
+				<td><button type="submit">Submit</button></td>
+			</tr>
+		</table>
+	</form>
+
+	<p>
+		<button type="button">
+			<a th:href="@{/}">Go Home</a>
+		</button>
+	</p>
+</body>
+</html>

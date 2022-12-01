@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Projects</title>
+<link rel="stylesheet" type="text/css" th:href="@{/resources/style.css}"></link>
+</head>
+<body>
+
+	<div th:if="${empty != null}">
+		<h1>
+			<span th:text="${empty}"></span>
+		</h1>
+	</div>
+
+
+	<div th:if="${empty == null}">
+
+		<h1>Those Projects Exist</h1>
+		<div>
+			<ul>
+				<th:block th:object="${projects}">
+					<li th:each="project : ${projects}" th:text="${project}">project list here...</li>
+				</th:block>
+			</ul>
+		</div>
+	</div>
+<p>
+		<button type="button">
+			<a th:href="@{/}">Go Home</a>
+		</button>
+	</p>
+</body>
+</html>

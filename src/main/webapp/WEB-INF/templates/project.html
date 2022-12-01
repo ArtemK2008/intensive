@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Project Options</title>
+<link rel="stylesheet" type="text/css" th:href="@{/resources/style.css}"></link>
+</head>
+<body>
+	<h1>Project Options</h1>
+	
+	<p>
+		<button type="button">
+			<a th:href="@{/find-all-projects}">Display All Projects</a>
+		</button>
+	</p>
+	
+	<p>
+		<button type="button">
+			<a th:href="@{/display-employees-in-project}"> Display Project's Employees</a>
+		</button>
+	</p>
+	
+	<p>
+		<button type="button">
+			<a th:href="@{/create-new-project}"> Create New Project</a>
+		</button>
+	</p>
+	
+	<p>
+		<button type="button">
+			<a th:href="@{/delete-project}"> Delete Project</a>
+		</button>
+	</p>
+	
+	
+	
+	<p>
+		<button type="button">
+			<a th:href="@{/}">Go Home</a>
+		</button>
+	</p>
+</body>
+</html>

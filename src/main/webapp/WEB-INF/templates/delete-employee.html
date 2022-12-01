@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>delete employee</title>
+<link rel="stylesheet" type="text/css" th:href="@{/resources/style.css}"></link>
+</head>
+
+<body>
+	<h1>Type Employee Id you want to delete</h1>
+
+
+	<form method="POST" th:action="@{/delete-employee}">
+		<table>
+			<tr>
+				<td>Id</td>
+				<td><input type="text" th:name="employeeId"
+					value="Enter employee id " /></td>
+			</tr>
+			<tr>
+				<td><button type="submit">Submit</button></td>
+			</tr>
+		</table>
+	</form>
+
+
+
+	<p>
+		<button type="button">
+			<a th:href="@{/}">Go Home</a>
+		</button>
+	</p>
+</body>
+</html>

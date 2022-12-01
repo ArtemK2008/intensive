@@ -1,0 +1,6 @@
+URL = jdbc:postgresql://localhost/kalachevintensive
+NAME = artem
+PASSWORD = 2487
+JDBC_DRIVER = org.postgresql.Driver
+DIALECT = org.hibernate.dialect.PostgreSQLDialect
+DLL-MODE = create
